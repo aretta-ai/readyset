@@ -19,3 +19,13 @@ docker-compose.override.yml
 .readyset-history
 readyset-compose.yml
 readyset.tmp/
+
+# Aristo: durable artifacts (aristo.toml, .aristo/index.toml, .aristo/doc/, .aristo/specs/) are
+# tracked; runtime/advisory/review state is not.
+.aristo/sessions/
+.aristo/nudge-state.toml
+.aristo/verify-queue/
+.aristo/critique-queue/
+.aristo/critiques/
+.aristo/*.proof.bak
+.aristo/archive/

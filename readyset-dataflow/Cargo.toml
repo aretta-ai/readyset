@@ -10,6 +10,7 @@ description = "Readyset dataflow crate"
 [dependencies]
 ahash = { workspace = true }
 antithesis_sdk = { workspace = true }
+aristo = { workspace = true }
 async-bincode = { workspace = true }
 bincode = { workspace = true }
 bufstream = { workspace = true }

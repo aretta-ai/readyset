@@ -101,6 +101,7 @@ tokio-postgres = "*"
 ########################
 
 ahash = "0.8"
+aristo = "0.2"
 antithesis_sdk = { git = "https://github.com/antithesishq/antithesis-sdk-rust", branch = "spot-artificer", default-features = false }
 anyhow = "1.0.82"
 async-channel = "2.4.0"

@@ -41,6 +41,15 @@ use readyset_util::ranges::{Bound, RangeBounds};
 /// map.insert_range(0..=10);
 /// assert_eq!(map.get(&1), Some(&vec![]));
 /// ````
+#[aristo::intent(
+    "A key reads as a re-fillable hole precisely when no row is stored for it and it lies outside \
+     every covered range; a key inside a covered range with no stored row is a known-empty key \
+     served as the empty default rather than a hole, and a key with a stored row is never reported \
+     as missing.",
+    verify = "neural",
+    id = "partial_map_hole_versus_known_empty_discrimination",
+    parent = "eviction_preserves_holeness"
+)]
 #[derive(PartialEq, Eq, Clone)]
 pub struct PartialMap<K, V> {
     map: BTreeMap<K, V>,
@@ -340,6 +349,14 @@ where
     }
 
     /// Remove the value at the given `key` from this map, returning it if it was present
+    #[aristo::intent(
+        "Removing a single key discards its stored value and its point coverage together, so the \
+         evicted key reverts to a re-fillable hole reported as a miss rather than remaining covered \
+         and served as a known-empty result.",
+        verify = "full",
+        id = "evicted_point_reverts_to_refillable_hole",
+        parent = "partial_map_hole_versus_known_empty_discrimination"
+    )]
     pub fn remove<Q>(&mut self, key: &Q) -> Option<V>
     where
         K: Borrow<Q> + Clone,
@@ -360,6 +377,15 @@ where
     }
 
     /// Remove the values corresponding to the keys covered by `range`, and return them.
+    #[aristo::intent(
+        "Removing a key range discards its stored rows and its range coverage together as a unit, \
+         so every evicted key in the range reverts to a re-fillable hole reported as a miss by a \
+         later lookup — never left covered without rows and served as a known-empty result, and \
+         never left covered with stale rows.",
+        verify = "full",
+        id = "evicted_range_reverts_to_refillable_hole",
+        parent = "partial_map_hole_versus_known_empty_discrimination"
+    )]
     pub fn remove_range<'a, B, R>(&'a mut self, range: R) -> impl Iterator<Item = (K, V)> + 'a
     where
         K: Borrow<B> + Clone,

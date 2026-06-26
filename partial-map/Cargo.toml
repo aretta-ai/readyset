@@ -6,6 +6,7 @@ authors = ["Readyset Technology, Inc. <info@readyset.io>"]
 edition = "2024"
 
 [dependencies]
+aristo = { workspace = true }
 merging-interval-tree = { path = "../merging-interval-tree" }
 readyset-util = { path = "../readyset-util" }
 

@@ -46,6 +46,13 @@ impl SizeOf for MemoryState {
     }
 }
 
+#[aristo::intent(
+    "Every materialized key, whatever its key shape, yields a strictly positive freed-memory \
+     measure when evicted.",
+    verify = "full",
+    id = "present_key_freed_measure_strictly_positive",
+    parent = "cascade_gated_on_positive_freed_measure"
+)]
 fn base_row_bytes_from_comparison(keys: &KeyComparison) -> usize {
     if let KeyComparison::Equal(keys) = keys {
         base_row_bytes(keys)

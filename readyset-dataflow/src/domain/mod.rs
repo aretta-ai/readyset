@@ -4221,6 +4221,22 @@ impl Domain {
         }
     }
 
+    #[aristo::intent(
+        "Evicting a key propagates to every downstream materialization transitively derived from \
+         it, including those reachable only through the source-triggered path; no reachable \
+         downstream materialization retains a filled entry for the evicted key.",
+        verify = "neural",
+        id = "eviction_cascade_reaches_all_downstream_materializations",
+        parent = "eviction_preserves_holeness"
+    )]
+    #[aristo::intent(
+        "The downstream eviction cascade for a key is initiated exactly when evicting that key from \
+         the local materialization freed a strictly positive memory measure, which holds precisely \
+         when the eviction removed a present key.",
+        verify = "full",
+        id = "cascade_gated_on_positive_freed_measure",
+        parent = "eviction_preserves_holeness"
+    )]
     #[allow(clippy::too_many_arguments)]
     fn trigger_downstream_evictions(
         index: &Index,
@@ -4694,6 +4710,12 @@ impl Domain {
 
     /// Handles an [`Eviction`], triggering downstream evictions in this Domain or others as
     /// necessary.
+    #[aristo::intent(
+        "An accepted eviction returns the evicted key's downstream materialization to a re-fillable \
+         hole — never a filled-but-stale region, and never a known-empty result.",
+        verify = "neural",
+        id = "eviction_preserves_holeness"
+    )]
     pub fn handle_eviction(
         &mut self,
         request: Eviction,
