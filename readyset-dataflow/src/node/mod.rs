@@ -12,7 +12,10 @@ use crate::prelude::*;
 use crate::processing::LookupIndex;
 
 mod process;
-#[cfg(test)]
+// aristo-instr: `materialize` is consumed by the MockGraph driver in
+// ops::test, which is additionally compiled under the aristo-instr
+// conformance seam (see ops/mod.rs).
+#[cfg(any(test, feature = "aristo-instr"))]
 pub(crate) use self::process::materialize;
 pub(crate) use self::process::{NodeProcessingResult, ProcessEnv};
 

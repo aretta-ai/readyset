@@ -58,6 +58,14 @@ pub type Readers = Arc<Mutex<ReaderMap>>;
 
 pub type DomainConfig = domain::Config;
 
+/// ARISTO-INSTR probe surface (pure-local `aristo-instr` feature): re-export
+/// the in-crate MockGraph test driver for out-of-crate conformance harnesses
+/// (aretta-books readyset-eviction-conformance). OFF in all default builds.
+#[cfg(feature = "aristo-instr")]
+pub mod aristo_probe {
+    pub use crate::ops::test::MockGraph;
+}
+
 #[derive(Serialize, Deserialize, Debug, Clone, Default, Eq, PartialEq)]
 /// Operations to perform on rows before insertion into a reader or after a lookup
 pub struct ReaderProcessing {

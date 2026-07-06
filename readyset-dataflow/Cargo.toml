@@ -71,6 +71,12 @@ test-utils = { path = "../test-utils" }
 [features]
 failure_injection = ["fail/failpoints", "readyset-util/failure_injection"]
 display_literals = []
+# aristo conformance seam (aretta-books D6.6 join-output DT): exposes the
+# in-crate MockGraph test driver plus a set_base_state accessor to
+# out-of-crate differential-test harnesses via `pub mod aristo_probe`.
+# PURE-LOCAL: enables no other feature, adds no dependency; OFF by default,
+# so a feature-off build is byte-identical to upstream.
+aristo-instr = []
 
 [lints]
 workspace = true

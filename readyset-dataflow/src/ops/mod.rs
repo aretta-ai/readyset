@@ -267,7 +267,13 @@ impl Ingredient for NodeOperator {
     }
 }
 
-#[cfg(test)]
+// aristo-instr conformance seam (aretta-books D6.6 join-output DT): the
+// MockGraph driver is additionally compiled under the pure-local
+// `aristo-instr` feature so an out-of-crate differential-test harness can
+// drive a real operator's on_input through a hand-built parent state. The
+// module is unchanged for `cfg(test)` builds and absent entirely when the
+// feature is off.
+#[cfg(any(test, feature = "aristo-instr"))]
 pub mod test {
     use std::cell;
     use std::collections::HashMap;
@@ -280,7 +286,9 @@ pub mod test {
     use crate::processing::LookupIndex;
     use crate::utils::make_columns;
 
-    pub(super) struct MockGraph {
+    // pub (not pub(super)) so the aristo-instr seam can re-export it from
+    // the crate root (`crate::aristo_probe`); still test/seam-gated.
+    pub struct MockGraph {
         graph: Graph,
         source: NodeIndex,
         nut: Option<IndexPair>, // node under test
@@ -347,6 +355,10 @@ pub mod test {
             ip
         }
 
+        // `Ingredient` is pub(crate); external (aristo-instr) callers never
+        // name it — they pass a concrete public op (e.g. join::Join) and the
+        // bound is checked in-crate, so the private-interface lint is noise.
+        #[allow(private_bounds)]
         pub fn set_op<I>(&mut self, name: &str, fields: &[&str], mut i: I, materialized: bool)
         where
             I: Ingredient + Into<NodeOperator>,
@@ -480,7 +492,7 @@ pub mod test {
                 .insert(*base, MaterializedNodeState::Memory(state));
         }
 
-        pub fn input_raw<U: Into<Records>>(
+        pub(crate) fn input_raw<U: Into<Records>>(
             &mut self,
             src: IndexPair,
             u: U,
@@ -524,7 +536,7 @@ pub mod test {
             res
         }
 
-        pub fn input<U: Into<Records>>(
+        pub(crate) fn input<U: Into<Records>>(
             &mut self,
             src: IndexPair,
             u: U,
@@ -568,6 +580,19 @@ pub mod test {
 
         pub fn node_mut(&self) -> cell::RefMut<'_, Node> {
             self.nodes[*self.nut.unwrap()].borrow_mut()
+        }
+
+        /// ARISTO-INSTR SEAM: install a hand-built state for `base`,
+        /// REPLACING the default full MemoryState that `set_op` indexed
+        /// (MockGraph's default base state is FULLY materialized, so a
+        /// partial/weak-lookup path would never fire against it).
+        ///
+        /// Call AFTER `set_op`: the is_useful() index-pruning pass above
+        /// runs inside `set_op`, so a state installed here is never
+        /// re-pruned and its `is_partial()` still holds at on_input time.
+        #[cfg(feature = "aristo-instr")]
+        pub fn set_base_state(&mut self, base: IndexPair, st: MaterializedNodeState) {
+            self.states.insert(*base, st);
         }
 
         pub fn narrow_base_id(&self) -> IndexPair {
