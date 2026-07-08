@@ -72,14 +72,7 @@ struct FullWait {
     bag_union_state: Option<BagUnionState>,
 }
 
-#[aristo::intent(
-    "Each eviction obligation recorded against a buffered replay is at every moment either already \
-     issued downstream or still outstanding on that buffered key, and is never dropped when the \
-     buffer is discarded nor issued more than once.",
-    verify = "neural",
-    id = "eviction_debt_conserved",
-    parent = "eviction_preserves_holeness"
-)]
+#[aristo::intent("Each eviction obligation recorded against a buffered replay is at every moment either already issued downstream or still outstanding on that buffered key, and is never dropped when the buffer is discarded nor issued more than once.", id = "aristos:eviction_debt_conserved", verify = "full", parent = "eviction_preserves_holeness")]
 #[serde_as]
 #[derive(Clone, Debug, Serialize, Deserialize)]
 struct ReplayPieces {
@@ -464,15 +457,7 @@ impl Ingredient for Union {
         id = "in_flight_replay_key_withheld_as_hole",
         parent = "eviction_debt_conserved"
     )]
-    #[aristo::intent(
-        "At release of a buffered upquery response for a key, an eviction obligation outstanding \
-         against that key is issued downstream as an eviction for the same key within that same \
-         release, discharged exactly once; the obligation is never carried past the release as a \
-         settled materialization left filled with stale replay contents.",
-        verify = "full",
-        id = "deferred_eviction_released_at_refill",
-        parent = "eviction_debt_conserved"
-    )]
+    #[aristo::intent("At release of a buffered upquery response for a key, an eviction obligation outstanding against that key is issued downstream as an eviction for the same key within that same release, discharged exactly once. The obligation is never carried past the release as a settled materialization left filled with stale replay contents.", id = "aristos:deferred_eviction_released_at_refill", verify = "full", parent = "eviction_debt_conserved")]
     fn on_input_raw(
         &mut self,
         from: LocalNodeIndex,
@@ -914,15 +899,7 @@ impl Ingredient for Union {
         }
     }
 
-    #[aristo::intent(
-        "An eviction received for a key whose buffered upquery response from the evicting ancestor \
-         is already held is retained as an outstanding eviction obligation on that buffered key; an \
-         obligation already outstanding for the key is left in force, and the eviction is neither \
-         discarded nor merged into the buffered records.",
-        verify = "full",
-        id = "deferred_eviction_obligation_recorded",
-        parent = "eviction_debt_conserved"
-    )]
+    #[aristo::intent("An eviction received for a key whose buffered upquery response from the evicting ancestor is already held is retained as an outstanding eviction obligation on that buffered key. An obligation already outstanding for the key is left in force, and the eviction is neither discarded nor merged into the buffered records.", id = "aristos:deferred_eviction_obligation_recorded", verify = "full", parent = "eviction_debt_conserved")]
     fn on_eviction(
         &mut self,
         from: LocalNodeIndex,
