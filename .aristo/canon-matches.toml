@@ -1,0 +1,268 @@
+[__meta__]
+schema_version = 1
+canon_version = "v0.1.0"
+last_fetched = "2026-07-08T08:20:32.876831694Z"
+
+["aristos:cascade_gated_on_positive_freed_measure"]
+last_match_text_hash = "sha256:e877b73745470bf33ce5e1ce738c624b38b8617b84af972d6f2a83883ac2c2dc"
+canon_fetched_at = "2026-07-08T08:24:20Z"
+
+[["aristos:cascade_gated_on_positive_freed_measure".accepted_matches]]
+canon_id = "cascade_gated_on_positive_freed_measure"
+version = "v0.1.0"
+canonical_text = "The downstream eviction cascade for a key is initiated exactly when evicting that key from the local materialization freed a strictly positive memory measure, which holds precisely when the eviction removed a present key."
+canon_version = "v0.1.0"
+confidence = 0.9999999996219432
+prefix_tier = "aristos:"
+backed_by = "s274_cascade_gated_exactly_on_positive_freed_measure — positive-freed cascade gate (eviction-conformance; golden model Cascade.cascade_iff_present)"
+linked = "arta_c910c0cbb30aca76fa5dac4d24b4200b"
+accepted_at = "2026-07-08T08:24:20Z"
+bound_at = "2026-07-08T08:24:20Z"
+
+["aristos:cascade_gated_on_positive_freed_measure".accepted_matches.verification]
+coverage_level = "tight"
+test_binaries = []
+
+["aristos:deferred_eviction_obligation_recorded"]
+last_match_text_hash = "sha256:ab92a6022d3b558ac6d21c293bdfe13e5776ce21e4758d31d5156c4dab5f40ec"
+canon_fetched_at = "2026-07-08T08:24:20Z"
+
+[["aristos:deferred_eviction_obligation_recorded".accepted_matches]]
+canon_id = "deferred_eviction_obligation_recorded"
+version = "v0.1.0"
+canonical_text = "An eviction received for a key whose buffered upquery response from the evicting ancestor is already held is retained as an outstanding eviction obligation on that buffered key. An obligation already outstanding for the key is left in force, and the eviction is neither discarded nor merged into the buffered records."
+canon_version = "v0.1.0"
+confidence = 0.99409806984678
+prefix_tier = "aristos:"
+backed_by = "s268_deferred_eviction_obligation_recorded — deferred-eviction obligation recording gate (eviction-conformance; golden model Union.onEviction_records)"
+linked = "arta_c622039ffcd47125a7be268108ea1d45"
+accepted_at = "2026-07-08T08:24:20Z"
+bound_at = "2026-07-08T08:24:20Z"
+
+["aristos:deferred_eviction_obligation_recorded".accepted_matches.verification]
+coverage_level = "tight"
+test_binaries = []
+
+["aristos:deferred_eviction_released_at_refill"]
+last_match_text_hash = "sha256:9289a62831a8dc0432aebc4041eaa3af81e037a52c9539c8df1e21fb02048b01"
+canon_fetched_at = "2026-07-08T08:24:20Z"
+
+[["aristos:deferred_eviction_released_at_refill".accepted_matches]]
+canon_id = "deferred_eviction_released_at_refill"
+version = "v0.1.0"
+canonical_text = "At release of a buffered upquery response for a key, an eviction obligation outstanding against that key is issued downstream as an eviction for the same key within that same release, discharged exactly once. The obligation is never carried past the release as a settled materialization left filled with stale replay contents."
+canon_version = "v0.1.0"
+confidence = 0.9944535139519186
+prefix_tier = "aristos:"
+backed_by = "s272_deferred_eviction_discharged_at_release — release-time deferred-eviction discharge gate (eviction-conformance; golden model Union.release_discharges)"
+linked = "arta_c10db53fd703fffe623f5bada6290151"
+accepted_at = "2026-07-08T08:24:20Z"
+bound_at = "2026-07-08T08:24:20Z"
+
+["aristos:deferred_eviction_released_at_refill".accepted_matches.verification]
+coverage_level = "tight"
+test_binaries = []
+
+["aristos:evicted_point_reverts_to_refillable_hole"]
+last_match_text_hash = "sha256:141bde8a8302553f289261c0a4a0f0a60e971c73a733815329365d43eda64a9b"
+canon_fetched_at = "2026-07-08T08:24:20Z"
+
+[["aristos:evicted_point_reverts_to_refillable_hole".accepted_matches]]
+canon_id = "evicted_point_reverts_to_refillable_hole"
+version = "v0.1.0"
+canonical_text = "Removing a single key discards its stored value and its point coverage together, so the evicted key reverts to a re-fillable hole reported as a miss. It does not remain covered and served as a known-empty result."
+canon_version = "v0.1.0"
+confidence = 0.9904679198012132
+prefix_tier = "aristos:"
+backed_by = "s271_partial_map_point_eviction_reverts_to_refillable_hole — point-removal holeness gate (eviction-conformance; golden model PartialMap.remove_get_miss)"
+linked = "arta_f9228191a44afc11c25400fef323564a"
+accepted_at = "2026-07-08T08:24:20Z"
+bound_at = "2026-07-08T08:24:20Z"
+
+["aristos:evicted_point_reverts_to_refillable_hole".accepted_matches.verification]
+coverage_level = "tight"
+test_binaries = []
+
+["aristos:evicted_range_reverts_to_refillable_hole"]
+last_match_text_hash = "sha256:b31e17fed1a20bdc0fd28df18462600463eda03e21372410b8f326048830d61d"
+canon_fetched_at = "2026-07-08T08:24:20Z"
+
+[["aristos:evicted_range_reverts_to_refillable_hole".accepted_matches]]
+canon_id = "evicted_range_reverts_to_refillable_hole"
+version = "v0.1.0"
+canonical_text = "Removing a key range discards its stored rows and its range coverage together as a unit, so every evicted key in the range reverts to a re-fillable hole reported as a miss by a later lookup. It is never left covered without rows and served as a known-empty result, and never left covered with stale rows."
+canon_version = "v0.1.0"
+confidence = 0.993435244485289
+prefix_tier = "aristos:"
+backed_by = "s270_partial_map_range_eviction_reverts_to_refillable_hole — range-removal holeness gate (eviction-conformance; golden model PartialMap.removeRange_get_miss)"
+linked = "arta_671f28f324beff2c653de6bc3c7e39c3"
+accepted_at = "2026-07-08T08:24:20Z"
+bound_at = "2026-07-08T08:24:20Z"
+
+["aristos:evicted_range_reverts_to_refillable_hole".accepted_matches.verification]
+coverage_level = "tight"
+test_binaries = []
+
+["aristos:eviction_cascade_reaches_all_downstream_materializations"]
+last_match_text_hash = "sha256:eb5ae39fb7d169cccb21c4667d7531445e6aaf2dc4c4cceb2ce7e6812ed02318"
+canon_fetched_at = "2026-07-08T08:24:20Z"
+
+[["aristos:eviction_cascade_reaches_all_downstream_materializations".accepted_matches]]
+canon_id = "eviction_cascade_reaches_all_downstream_materializations"
+version = "v0.1.0"
+canonical_text = "Evicting a key propagates to every downstream materialization transitively derived from it, including those reachable only through the source-triggered path. No reachable downstream materialization retains a filled entry for the evicted key."
+canon_version = "v0.1.0"
+confidence = 0.997537082952306
+prefix_tier = "aristos:"
+backed_by = "s274_transitive_eviction_cascade — downstream cascade reachability umbrella (eviction-conformance; golden model Cascade)"
+linked = "arta_4571439303ae5e4a7b9813555b1a941f"
+accepted_at = "2026-07-08T08:24:20Z"
+bound_at = "2026-07-08T08:24:20Z"
+
+["aristos:eviction_cascade_reaches_all_downstream_materializations".accepted_matches.verification]
+coverage_level = "partial"
+test_binaries = []
+
+["aristos:eviction_debt_conserved"]
+last_match_text_hash = "sha256:4de1520f4733dca1dd2304fa1c33c7ec24941e7109dd04067c10024d7a37f018"
+canon_fetched_at = "2026-07-08T08:24:01Z"
+
+[["aristos:eviction_debt_conserved".accepted_matches]]
+canon_id = "eviction_debt_conserved"
+version = "v0.1.0"
+canonical_text = "Each eviction obligation recorded against a buffered replay is at every moment either already issued downstream or still outstanding on that buffered key, and is never dropped when the buffer is discarded nor issued more than once."
+canon_version = "v0.1.0"
+confidence = 0.9999999969893822
+prefix_tier = "aristos:"
+backed_by = "s268_s272_eviction_debt_conservation — deferred-eviction obligation conservation umbrella (eviction-conformance; golden model Union)"
+linked = "arta_09ac4995ea264a6a05cc8ed48cdd754e"
+accepted_at = "2026-07-08T08:24:01Z"
+bound_at = "2026-07-08T08:24:01Z"
+
+["aristos:eviction_debt_conserved".accepted_matches.verification]
+coverage_level = "partial"
+test_binaries = []
+
+["aristos:eviction_preserves_holeness"]
+last_match_text_hash = "sha256:0e299f985d3cea47023089ceb6f25953e73d371374111980f3a52c882c56c60d"
+canon_fetched_at = "2026-07-08T08:24:20Z"
+
+[["aristos:eviction_preserves_holeness".accepted_matches]]
+canon_id = "eviction_preserves_holeness"
+version = "v0.1.0"
+canonical_text = "An accepted eviction returns the evicted key's downstream materialization to a re-fillable hole — never a filled-but-stale region, and never a known-empty result."
+canon_version = "v0.1.0"
+confidence = 0.9999999960972727
+prefix_tier = "aristos:"
+backed_by = "s270_s271_eviction_preserves_holeness — point/range eviction holeness umbrella (eviction-conformance; golden model PartialMap)"
+linked = "arta_2cdb9cee12803b224246cad112ddb9e6"
+accepted_at = "2026-07-08T08:24:20Z"
+bound_at = "2026-07-08T08:24:20Z"
+
+["aristos:eviction_preserves_holeness".accepted_matches.verification]
+coverage_level = "partial"
+test_binaries = []
+
+["aristos:in_flight_replay_key_withheld_as_hole"]
+last_match_text_hash = "sha256:792696480255555e9775d0b5d04808b6ec22a9487d5fdd2f825fc0ff948f4576"
+canon_fetched_at = "2026-07-08T08:24:20Z"
+
+[["aristos:in_flight_replay_key_withheld_as_hole".accepted_matches]]
+canon_id = "in_flight_replay_key_withheld_as_hole"
+version = "v0.1.0"
+canonical_text = "A replay key whose buffered upquery response has not been received from every required ancestor is withheld from the released set. The key's downstream materialization remains an unfilled, re-fillable hole until a piece is held from each required ancestor."
+canon_version = "v0.1.0"
+confidence = 0.9934410250960614
+prefix_tier = "aristos:"
+backed_by = "s269_partial_replay_withholding_until_complete — partial-replay withholding gate (eviction-conformance; golden model Union.release_complete)"
+linked = "arta_abea0b86f4bf7183a34233149ac89f6e"
+accepted_at = "2026-07-08T08:24:20Z"
+bound_at = "2026-07-08T08:24:20Z"
+
+["aristos:in_flight_replay_key_withheld_as_hole".accepted_matches.verification]
+coverage_level = "tight"
+test_binaries = []
+
+["aristos:partial_map_hole_versus_known_empty_discrimination"]
+last_match_text_hash = "sha256:3d6a8eb8f9f4c4df795f1ab4494e2ceb7f359efea53ecdf3f2c25bce57d62921"
+canon_fetched_at = "2026-07-08T08:24:20Z"
+
+[["aristos:partial_map_hole_versus_known_empty_discrimination".accepted_matches]]
+canon_id = "partial_map_hole_versus_known_empty_discrimination"
+version = "v0.1.0"
+canonical_text = "A key reads as a re-fillable hole precisely when no row is stored for it and it lies outside every covered range. A key inside a covered range with no stored row is a known-empty key served as the empty default rather than a hole, and a key with a stored row is never reported as missing."
+canon_version = "v0.1.0"
+confidence = 0.9948112354746556
+prefix_tier = "aristos:"
+backed_by = "s270_s271_partial_map_trichotomy — hole/known-empty/present discrimination umbrella (eviction-conformance; golden model PartialMap)"
+linked = "arta_0765f3fd338a910f0e829d641ea605e8"
+accepted_at = "2026-07-08T08:24:20Z"
+bound_at = "2026-07-08T08:24:20Z"
+
+["aristos:partial_map_hole_versus_known_empty_discrimination".accepted_matches.verification]
+coverage_level = "partial"
+test_binaries = []
+
+["aristos:present_key_freed_measure_strictly_positive"]
+last_match_text_hash = "sha256:a389fde8288dffe2e11516f7ca430eeec9994f869659788d2bda5b918fee5416"
+canon_fetched_at = "2026-07-08T08:24:20Z"
+
+[["aristos:present_key_freed_measure_strictly_positive".accepted_matches]]
+canon_id = "present_key_freed_measure_strictly_positive"
+version = "v0.1.0"
+canonical_text = "Every materialized key, whatever its key shape, yields a strictly positive freed-memory measure when evicted."
+canon_version = "v0.1.0"
+confidence = 0.9999999984479412
+prefix_tier = "aristos:"
+backed_by = "s273_materialized_key_freed_measure_strict_positivity — present-key freed-measure positivity gate (eviction-conformance; golden model Eviction.evictKey_pos)"
+linked = "arta_b203ff8c7b8f1698c557c8511b9d3af3"
+accepted_at = "2026-07-08T08:24:20Z"
+bound_at = "2026-07-08T08:24:20Z"
+
+["aristos:present_key_freed_measure_strictly_positive".accepted_matches.verification]
+coverage_level = "tight"
+test_binaries = []
+
+[cascade_gated_on_positive_freed_measure]
+last_match_text_hash = "sha256:e877b73745470bf33ce5e1ce738c624b38b8617b84af972d6f2a83883ac2c2dc"
+canon_fetched_at = "2026-07-08T08:20:32.880557737Z"
+
+[deferred_eviction_obligation_recorded]
+last_match_text_hash = "sha256:ab92a6022d3b558ac6d21c293bdfe13e5776ce21e4758d31d5156c4dab5f40ec"
+canon_fetched_at = "2026-07-08T08:20:32.880557737Z"
+
+[deferred_eviction_released_at_refill]
+last_match_text_hash = "sha256:9289a62831a8dc0432aebc4041eaa3af81e037a52c9539c8df1e21fb02048b01"
+canon_fetched_at = "2026-07-08T08:20:32.880557737Z"
+
+[evicted_point_reverts_to_refillable_hole]
+last_match_text_hash = "sha256:141bde8a8302553f289261c0a4a0f0a60e971c73a733815329365d43eda64a9b"
+canon_fetched_at = "2026-07-08T08:20:32.880557737Z"
+
+[evicted_range_reverts_to_refillable_hole]
+last_match_text_hash = "sha256:b31e17fed1a20bdc0fd28df18462600463eda03e21372410b8f326048830d61d"
+canon_fetched_at = "2026-07-08T08:20:32.880557737Z"
+
+[eviction_cascade_reaches_all_downstream_materializations]
+last_match_text_hash = "sha256:eb5ae39fb7d169cccb21c4667d7531445e6aaf2dc4c4cceb2ce7e6812ed02318"
+canon_fetched_at = "2026-07-08T08:20:32.880557737Z"
+
+[eviction_debt_conserved]
+last_match_text_hash = "sha256:4de1520f4733dca1dd2304fa1c33c7ec24941e7109dd04067c10024d7a37f018"
+canon_fetched_at = "2026-07-08T08:20:32.880557737Z"
+
+[eviction_preserves_holeness]
+last_match_text_hash = "sha256:0e299f985d3cea47023089ceb6f25953e73d371374111980f3a52c882c56c60d"
+canon_fetched_at = "2026-07-08T08:20:32.880557737Z"
+
+[in_flight_replay_key_withheld_as_hole]
+last_match_text_hash = "sha256:792696480255555e9775d0b5d04808b6ec22a9487d5fdd2f825fc0ff948f4576"
+canon_fetched_at = "2026-07-08T08:20:32.880557737Z"
+
+[partial_map_hole_versus_known_empty_discrimination]
+last_match_text_hash = "sha256:3d6a8eb8f9f4c4df795f1ab4494e2ceb7f359efea53ecdf3f2c25bce57d62921"
+canon_fetched_at = "2026-07-08T08:20:32.880557737Z"
+
+[present_key_freed_measure_strictly_positive]
+last_match_text_hash = "sha256:a389fde8288dffe2e11516f7ca430eeec9994f869659788d2bda5b918fee5416"
+canon_fetched_at = "2026-07-08T08:20:32.880557737Z"
