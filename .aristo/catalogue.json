@@ -1,0 +1,730 @@
+{
+  "notice": [
+    "══════════════════════════════════════════════════════════════════",
+    "  PROPRIETARY & CONFIDENTIAL — ARETTA / ARISTO CANON CORPUS",
+    "══════════════════════════════════════════════════════════════════",
+    "This catalogue is the proprietary and confidential information of Aretta, disclosed under license to Aristo Design Partners only.",
+    "Authorized SOLELY for internal use by Readyset.",
+    "DO NOT commit, publish, mirror, or disclose this file to any external, public, or open-source repository or third party. It is a gitignored, regenerable local snapshot — never a committed artifact.",
+    "© Aretta. All rights reserved.",
+    "══════════════════════════════════════════════════════════════════"
+  ],
+  "entries": [
+    {
+      "canon_id": "mvcc_aborted_txn_writes_invisible",
+      "version": "v0.1.1",
+      "canonical_text": "writes from a transaction that subsequently aborts are never visible to any other transaction at any timestamp",
+      "category": "concurrency",
+      "applies_to": [
+        "fn",
+        "method"
+      ],
+      "backed_by": {
+        "turso": "differentially tested against another implementation"
+      },
+      "coverage_level": "tight",
+      "spec_refs": [
+        "S-131"
+      ]
+    },
+    {
+      "canon_id": "mvcc_commit_ts_monotone",
+      "version": "v0.1.1",
+      "canonical_text": "commit timestamps are assigned monotonically: every committed transaction's ts strictly exceeds the ts of every previously committed transaction",
+      "category": "concurrency",
+      "applies_to": [
+        "fn",
+        "method"
+      ],
+      "backed_by": {
+        "turso": "differentially tested against another implementation"
+      },
+      "coverage_level": "tight",
+      "spec_refs": [
+        "S-111"
+      ]
+    },
+    {
+      "canon_id": "mvcc_snapshot_isolation",
+      "version": "v0.1.1",
+      "canonical_text": "a transaction's read snapshot is fixed at its begin timestamp; subsequent commits do not become visible to it",
+      "category": "concurrency",
+      "applies_to": [
+        "fn",
+        "method"
+      ],
+      "backed_by": {
+        "turso": "differentially tested against another implementation"
+      },
+      "coverage_level": "tight",
+      "spec_refs": [
+        "S-006"
+      ]
+    },
+    {
+      "canon_id": "mvcc_visibility_predicate_three_intervals",
+      "version": "v0.1.1",
+      "canonical_text": "a row version with begin_ts and end_ts is visible to a transaction reading in the rv_begin..rv_end interval iff their visibility intervals overlap per the three-interval predicate",
+      "category": "concurrency",
+      "applies_to": [
+        "fn",
+        "method"
+      ],
+      "backed_by": {
+        "turso": "differentially tested against another implementation"
+      },
+      "coverage_level": "tight",
+      "spec_refs": [
+        "S-006"
+      ]
+    },
+    {
+      "canon_id": "mvcc_write_write_conflict_detection",
+      "version": "v0.1.1",
+      "canonical_text": "concurrent writes to the same row by two in-flight transactions cause one of them to abort with a write-write conflict",
+      "category": "concurrency",
+      "applies_to": [
+        "fn",
+        "method"
+      ],
+      "backed_by": {
+        "turso": "differentially tested against another implementation"
+      },
+      "coverage_level": "tight",
+      "spec_refs": [
+        "S-113"
+      ]
+    },
+    {
+      "canon_id": "single_writer_serialization",
+      "version": "v0.1.0",
+      "canonical_text": "at most one write transaction is active at any time",
+      "category": "concurrency",
+      "applies_to": [
+        "fn",
+        "method"
+      ],
+      "backed_by": {},
+      "coverage_level": "none",
+      "spec_refs": []
+    },
+    {
+      "canon_id": "vacuum_single_writer_serialized",
+      "version": "v0.1.0",
+      "canonical_text": "Writers and VACUUM serialize: at most one of them can modify the database at any instant",
+      "category": "concurrency",
+      "applies_to": [
+        "fn",
+        "method"
+      ],
+      "backed_by": {
+        "turso": "differentially tested against another implementation"
+      },
+      "coverage_level": "tight",
+      "spec_refs": [
+        "S-007",
+        "S-160"
+      ]
+    },
+    {
+      "canon_id": "logical_log_header_publish_after_fsync",
+      "version": "v0.1.0",
+      "canonical_text": "the in-memory log header is published only after the on-disk header pwrite has completed durably",
+      "category": "invariants",
+      "applies_to": [
+        "fn",
+        "method"
+      ],
+      "backed_by": {
+        "turso": "differentially tested against another implementation"
+      },
+      "coverage_level": "none",
+      "spec_refs": []
+    },
+    {
+      "canon_id": "logical_log_inmemory_offset_advances_after_durable_write",
+      "version": "v0.1.0",
+      "canonical_text": "the in-memory log offset advances only after the corresponding frame pwrite has completed durably",
+      "category": "invariants",
+      "applies_to": [
+        "fn",
+        "method"
+      ],
+      "backed_by": {
+        "turso": "differentially tested against another implementation"
+      },
+      "coverage_level": "none",
+      "spec_refs": []
+    },
+    {
+      "canon_id": "logical_log_pending_crc_cleared_on_abort",
+      "version": "v0.1.0",
+      "canonical_text": "the pending running-CRC slot is cleared by the storage abort path after an abandoned deferred-offset write",
+      "category": "invariants",
+      "applies_to": [
+        "fn",
+        "method"
+      ],
+      "backed_by": {
+        "turso": "differentially tested against another implementation"
+      },
+      "coverage_level": "none",
+      "spec_refs": []
+    },
+    {
+      "canon_id": "logical_log_shadow_offset_matches_durable",
+      "version": "v0.1.0",
+      "canonical_text": "the shadow offset tracking the log's durable boundary equals the durable offset at every quiescent boundary after a truncate",
+      "category": "invariants",
+      "applies_to": [
+        "fn",
+        "method"
+      ],
+      "backed_by": {
+        "turso": "differentially tested against another implementation"
+      },
+      "coverage_level": "none",
+      "spec_refs": []
+    },
+    {
+      "canon_id": "logical_log_truncate_crc_reseed_after_completion",
+      "version": "v0.1.0",
+      "canonical_text": "the running CRC of the log is reseeded only after the truncate operation has completed durably",
+      "category": "invariants",
+      "applies_to": [
+        "fn",
+        "method"
+      ],
+      "backed_by": {
+        "turso": "differentially tested against another implementation"
+      },
+      "coverage_level": "none",
+      "spec_refs": []
+    },
+    {
+      "canon_id": "mvcc_recovered_schema_record_wellformed",
+      "version": "v0.2.0",
+      "canonical_text": "A sqlite_schema row version produced by logical-log recovery always carries a decodable (type, rootpage) record before it can reach checkpoint identity decoding",
+      "category": "invariants",
+      "applies_to": [
+        "fn",
+        "method"
+      ],
+      "backed_by": {},
+      "coverage_level": "tight",
+      "spec_refs": [
+        "S-179"
+      ]
+    },
+    {
+      "canon_id": "mvcc_recovery_total_on_committed_log",
+      "version": "v0.2.0",
+      "canonical_text": "Replaying a committed logical log never aborts as corruption; a delete of a sqlite_schema rowid absent from the merged state is the legal no-op of a same-transaction create-then-drop",
+      "category": "invariants",
+      "applies_to": [
+        "fn",
+        "method"
+      ],
+      "backed_by": {},
+      "coverage_level": "tight",
+      "spec_refs": [
+        "S-180"
+      ]
+    },
+    {
+      "canon_id": "mvcc_referenced_tx_stays_live",
+      "version": "v0.2.0",
+      "canonical_text": "Every transaction id referenced by a live connection or open cursor remains present in the MVCC transaction map until that reference is released",
+      "category": "invariants",
+      "applies_to": [
+        "fn",
+        "method"
+      ],
+      "backed_by": {},
+      "coverage_level": "tight",
+      "spec_refs": [
+        "S-178"
+      ]
+    },
+    {
+      "canon_id": "page_cache_counter_pin_orthogonality",
+      "version": "v0.2.0",
+      "canonical_text": "Pinning and unpinning a page preserve evictable-count coherence; the counter dimension is independent of the pin dimension",
+      "category": "invariants",
+      "applies_to": [
+        "fn",
+        "method"
+      ],
+      "backed_by": {
+        "turso": "s203_pin_orthogonality — pin/unpin preserve evictable_count coherence conformance gate (page-cache-conformance)"
+      },
+      "coverage_level": "tight",
+      "spec_refs": [
+        "S-203"
+      ]
+    },
+    {
+      "canon_id": "page_cache_evictable_count_bounded_by_residency",
+      "version": "v0.1.0",
+      "canonical_text": "The materialized evictable counter never exceeds the number of resident pages, so the spill room estimate can never claim more reclaimable pages than the cache holds",
+      "category": "invariants",
+      "applies_to": [
+        "fn",
+        "method"
+      ],
+      "backed_by": {
+        "turso": "s209_evictable_count_bounded — evictable_count <= len conformance gate (page-cache-conformance)"
+      },
+      "coverage_level": "tight",
+      "spec_refs": [
+        "S-209"
+      ]
+    },
+    {
+      "canon_id": "page_cache_evictable_count_coherent",
+      "version": "v0.1.0",
+      "canonical_text": "The cache's materialized evictable-page counter stays equal to the true number of evictable resident pages after every cache operation",
+      "category": "invariants",
+      "applies_to": [
+        "fn",
+        "method"
+      ],
+      "backed_by": {
+        "turso": "property-based test suite"
+      },
+      "coverage_level": "tight",
+      "spec_refs": [
+        "S-196"
+      ]
+    },
+    {
+      "canon_id": "page_cache_evictable_count_equality_regime",
+      "version": "v0.2.0",
+      "canonical_text": "A coherent evictable counter equals the true evictable count if and only if no counted page is pinned, multiply-owned, or locked",
+      "category": "invariants",
+      "applies_to": [
+        "fn",
+        "method"
+      ],
+      "backed_by": {
+        "turso": "s202_evictable_count_equality_regime — evictable_count == count_evictable_pages() in the unobstructed regime conformance gate (page-cache-conformance)"
+      },
+      "coverage_level": "tight",
+      "spec_refs": [
+        "S-202"
+      ]
+    },
+    {
+      "canon_id": "page_cache_evictable_count_exact_in_regime",
+      "version": "v0.1.0",
+      "canonical_text": "The maintained evictable counter equals the true evictable count exactly when no counted page is pinned, multiply-owned, or locked",
+      "category": "invariants",
+      "applies_to": [
+        "fn",
+        "method"
+      ],
+      "backed_by": {},
+      "coverage_level": "partial",
+      "spec_refs": [
+        "S-197"
+      ]
+    },
+    {
+      "canon_id": "page_cache_evictable_count_upper_bound",
+      "version": "v0.2.0",
+      "canonical_text": "The maintained evictable-page counter is always a conservative upper bound on the true number of strictly-evictable pages",
+      "category": "invariants",
+      "applies_to": [
+        "fn",
+        "method"
+      ],
+      "backed_by": {
+        "turso": "s197_evictable_count_upper_bound — count_evictable_pages() <= evictable_count conformance gate (page-cache-conformance)"
+      },
+      "coverage_level": "tight",
+      "spec_refs": [
+        "S-197"
+      ]
+    },
+    {
+      "canon_id": "page_cache_eviction_no_data_loss",
+      "version": "v0.1.0",
+      "canonical_text": "Capacity-pressure eviction removes only fully-evictable pages, so it never evicts a dirty-unspilled page (data loss), the database header page, or a locked page",
+      "category": "invariants",
+      "applies_to": [
+        "fn",
+        "method"
+      ],
+      "backed_by": {
+        "turso": "s207_eviction_no_data_loss — dirty/header/locked-survives-eviction conformance gate (page-cache-conformance)"
+      },
+      "coverage_level": "tight",
+      "spec_refs": [
+        "S-207"
+      ]
+    },
+    {
+      "canon_id": "page_cache_explicit_removal_pin_safety",
+      "version": "v0.2.0",
+      "canonical_text": "The pin-guarded removers (delete, truncate, WAL-frame cleanup) never remove a pinned page; clear is the one exception and drops pages with no pin check",
+      "category": "invariants",
+      "applies_to": [
+        "fn",
+        "method"
+      ],
+      "backed_by": {
+        "turso": "s204_explicit_removal_pin_safety — truncate keeps a pinned page + clear drops even pinned (documented) conformance gate (page-cache-conformance)"
+      },
+      "coverage_level": "tight",
+      "spec_refs": [
+        "S-204"
+      ]
+    },
+    {
+      "canon_id": "page_cache_functional_contract",
+      "version": "v0.1.0",
+      "canonical_text": "The page cache actually caches: a page is retrievable after insertion, a resident page that is not evicted or deleted is not silently lost, get and contains agree, and residency never exceeds capacity",
+      "category": "invariants",
+      "applies_to": [
+        "fn",
+        "method"
+      ],
+      "backed_by": {
+        "turso": "s210_functional_contract — insert->get round-trip + capacity conformance gate (page-cache-conformance)"
+      },
+      "coverage_level": "tight",
+      "spec_refs": [
+        "S-210"
+      ]
+    },
+    {
+      "canon_id": "page_cache_needs_spill_fastpath_sound",
+      "version": "v0.2.0",
+      "canonical_text": "The spill fast path may decline to spill only when its optimistic room estimate is trustworthy, so it never skips a spill that is genuinely required",
+      "category": "invariants",
+      "applies_to": [
+        "fn",
+        "method"
+      ],
+      "backed_by": {
+        "turso": "s198_needs_spill_skip — B1 spurious-skip witness (page-cache-conformance)"
+      },
+      "coverage_level": "tight",
+      "spec_refs": [
+        "S-198"
+      ]
+    },
+    {
+      "canon_id": "page_cache_pinned_never_evicted",
+      "version": "v0.2.0",
+      "canonical_text": "Capacity-pressure eviction never removes a page that is currently pinned, so any page in active use stays resident as long as it is held",
+      "category": "invariants",
+      "applies_to": [
+        "fn",
+        "method"
+      ],
+      "backed_by": {
+        "turso": "s195_pin_eviction_safety — pinned-survives-eviction conformance gate (page-cache-conformance)"
+      },
+      "coverage_level": "tight",
+      "spec_refs": [
+        "S-195"
+      ]
+    },
+    {
+      "canon_id": "page_cache_resize_grow_preserves_residency",
+      "version": "v0.1.0",
+      "canonical_text": "Growing the page cache's capacity is lossless: every resident page stays resident, the length is unchanged, and the capacity is updated to the new larger value",
+      "category": "invariants",
+      "applies_to": [
+        "fn",
+        "method"
+      ],
+      "backed_by": {
+        "turso": "s211_resize_grow_preserves_residency — resize to larger capacity retains all pages conformance gate (page-cache-conformance)"
+      },
+      "coverage_level": "tight",
+      "spec_refs": [
+        "S-211"
+      ]
+    },
+    {
+      "canon_id": "storage_compaction_correctness",
+      "version": "v0.1.0",
+      "canonical_text": "a compaction operation preserves logical content, preserves all schema and engine metadata, does not increase physical footprint, and is atomic under crash",
+      "category": "invariants",
+      "applies_to": [
+        "fn",
+        "method"
+      ],
+      "backed_by": {},
+      "coverage_level": "none",
+      "spec_refs": []
+    },
+    {
+      "canon_id": "vacuum_atomic_under_crash",
+      "version": "v0.1.0",
+      "canonical_text": "VACUUM is atomic under crash: recovery yields either the pre-VACUUM state or the post-VACUUM state, never an intermediate",
+      "category": "invariants",
+      "applies_to": [
+        "fn",
+        "method"
+      ],
+      "backed_by": {
+        "turso": "differentially tested against another implementation"
+      },
+      "coverage_level": "tight",
+      "spec_refs": [
+        "S-156"
+      ]
+    },
+    {
+      "canon_id": "vacuum_change_counter_monotone",
+      "version": "v0.1.0",
+      "canonical_text": "The database header's change_counter is monotonically non-decreasing across all modifying operations, including VACUUM",
+      "category": "invariants",
+      "applies_to": [
+        "fn",
+        "method"
+      ],
+      "backed_by": {
+        "turso": "differentially tested against another implementation"
+      },
+      "coverage_level": "tight",
+      "spec_refs": [
+        "S-159"
+      ]
+    },
+    {
+      "canon_id": "vacuum_page_count_oracle_exact",
+      "version": "v0.1.0",
+      "canonical_text": "After VACUUM, the database file's page count equals the formal model's prediction (pre-vacuum allocated pages minus the pre-vacuum freelist)",
+      "category": "invariants",
+      "applies_to": [
+        "fn",
+        "method"
+      ],
+      "backed_by": {
+        "turso": "differentially tested against another implementation"
+      },
+      "coverage_level": "tight",
+      "spec_refs": [
+        "S-154"
+      ]
+    },
+    {
+      "canon_id": "vacuum_preserves_logical_content",
+      "version": "v0.1.0",
+      "canonical_text": "VACUUM preserves the database's logical content",
+      "category": "invariants",
+      "applies_to": [
+        "fn",
+        "method"
+      ],
+      "backed_by": {
+        "turso": "differentially tested against another implementation"
+      },
+      "coverage_level": "tight",
+      "spec_refs": [
+        "S-150"
+      ]
+    },
+    {
+      "canon_id": "wal_checkpoint_error_no_db_leak",
+      "version": "v0.1.0",
+      "canonical_text": "A checkpoint failure must not leak frames into the main database file",
+      "category": "invariants",
+      "applies_to": [
+        "fn",
+        "method"
+      ],
+      "backed_by": {
+        "turso": "golden model + proofs + differential testing"
+      },
+      "coverage_level": "tight",
+      "spec_refs": [
+        "S-074"
+      ]
+    },
+    {
+      "canon_id": "wal_commit_requires_fsync",
+      "version": "v0.1.2",
+      "canonical_text": "When per-commit durability is requested, a commit frame must reach stable storage via fsync before the transaction is reported as durable",
+      "category": "invariants",
+      "applies_to": [
+        "fn",
+        "method"
+      ],
+      "backed_by": {
+        "turso": "golden model + proofs + differential testing"
+      },
+      "coverage_level": "tight",
+      "spec_refs": [
+        "S-072",
+        "S-073"
+      ]
+    },
+    {
+      "canon_id": "wal_find_frame_range_invariant",
+      "version": "v0.1.0",
+      "canonical_text": "find_frame never reads outside the live frame range [nbackfills, max_frame]",
+      "category": "invariants",
+      "applies_to": [
+        "fn",
+        "method"
+      ],
+      "backed_by": {
+        "turso": "golden model + proofs + differential testing"
+      },
+      "coverage_level": "tight",
+      "spec_refs": [
+        "S-075"
+      ]
+    },
+    {
+      "canon_id": "wal_initialized_reflects_sync_outcome",
+      "version": "v0.1.1",
+      "canonical_text": "The WAL initialized flag is set true only after a successful sync of the wal-header",
+      "category": "invariants",
+      "applies_to": [
+        "fn",
+        "method"
+      ],
+      "backed_by": {
+        "turso": "golden model + proofs + differential testing"
+      },
+      "coverage_level": "partial",
+      "spec_refs": [
+        "S-070"
+      ]
+    },
+    {
+      "canon_id": "wal_nbackfills_orders_with_recovery",
+      "version": "v0.1.1",
+      "canonical_text": "The nbackfills counter advances after frames are durable, so recovery never replays already-checkpointed frames",
+      "category": "invariants",
+      "applies_to": [
+        "fn",
+        "method"
+      ],
+      "backed_by": {
+        "turso": "golden model + proofs + differential testing"
+      },
+      "coverage_level": "partial",
+      "spec_refs": [
+        "S-074",
+        "S-076"
+      ]
+    },
+    {
+      "canon_id": "wal_protocol_correctness",
+      "version": "v0.1.0",
+      "canonical_text": "the WAL subsystem maintains LSN monotonicity, frame commitment ordering, recovery idempotency, checkpoint safety, and group-commit atomicity",
+      "category": "invariants",
+      "applies_to": [
+        "trait",
+        "mod"
+      ],
+      "backed_by": {},
+      "coverage_level": "none",
+      "spec_refs": []
+    },
+    {
+      "canon_id": "wal_truncate_atomic_under_concurrent_writers",
+      "version": "v0.1.0",
+      "canonical_text": "WAL truncate is atomic: no committed frame can be observed lost across the truncate operation",
+      "category": "invariants",
+      "applies_to": [
+        "fn",
+        "method"
+      ],
+      "backed_by": {
+        "turso": "golden model + proofs + differential testing"
+      },
+      "coverage_level": "tight",
+      "spec_refs": [
+        "S-074"
+      ]
+    },
+    {
+      "canon_id": "obstacle_is_the_way",
+      "version": "v0.1.0",
+      "canonical_text": "The impediment to action advances action. What stands in the way becomes the way.",
+      "category": "other",
+      "applies_to": [
+        "fn",
+        "method",
+        "impl"
+      ],
+      "backed_by": {
+        ":vanilla": "differentially tested against Holiday's Stoic Field Manual"
+      },
+      "coverage_level": "none",
+      "spec_refs": []
+    },
+    {
+      "canon_id": "waste_no_time_arguing_be_a_good_man",
+      "version": "v0.1.0",
+      "canonical_text": "Waste no more time arguing what a good man should be. Be one.",
+      "category": "other",
+      "applies_to": [
+        "fn",
+        "method"
+      ],
+      "backed_by": {},
+      "coverage_level": "none",
+      "spec_refs": []
+    },
+    {
+      "canon_id": "page_cache_eviction_frees_room",
+      "version": "v0.1.0",
+      "canonical_text": "Capacity-pressure eviction makes progress: a sweep never grows the cache, a removable page strictly shrinks it, and make_room_for frees exactly the requested room",
+      "category": "resources",
+      "applies_to": [
+        "fn",
+        "method"
+      ],
+      "backed_by": {
+        "turso": "s205_make_room_for_frees — make_room_for-frees-the-room progress gate (page-cache-conformance)"
+      },
+      "coverage_level": "tight",
+      "spec_refs": [
+        "S-205"
+      ]
+    },
+    {
+      "canon_id": "page_cache_eviction_terminates",
+      "version": "v0.2.0",
+      "canonical_text": "Whenever an evictable page is resident, the SIEVE eviction loop strictly reduces residency within a bounded number of sweeps — eviction never wedges, even for pages whose ref_bit has been raised by access",
+      "category": "resources",
+      "applies_to": [
+        "fn",
+        "method"
+      ],
+      "backed_by": {
+        "turso": "s206_touched_page_eviction — make_room_for still frees room for accessed (ref_bit-raised) pages (page-cache-conformance)"
+      },
+      "coverage_level": "tight",
+      "spec_refs": [
+        "S-206"
+      ]
+    },
+    {
+      "canon_id": "page_cache_spill_makes_room",
+      "version": "v0.1.0",
+      "canonical_text": "Spilling a dirty page makes it evictable while still dirty, so spilling reclaims room the eviction path can then free — and the spill counter update keeps the evictable counter coherent",
+      "category": "resources",
+      "applies_to": [
+        "fn",
+        "method"
+      ],
+      "backed_by": {
+        "turso": "s208_spill_makes_room — spill-unblocks-eviction conformance gate (page-cache-conformance)"
+      },
+      "coverage_level": "tight",
+      "spec_refs": [
+        "S-208"
+      ]
+    }
+  ]
+}

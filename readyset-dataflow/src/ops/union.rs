@@ -454,7 +454,7 @@ impl Ingredient for Union {
          ancestor is withheld from the released set, leaving the key's downstream materialization \
          an unfilled, re-fillable hole until a piece is held from each required ancestor.",
         verify = "full",
-        id = "in_flight_replay_key_withheld_as_hole",
+        id = "aristos:in_flight_replay_key_withheld_as_hole",
         parent = "eviction_debt_conserved"
     )]
     #[aristo::intent("At release of a buffered upquery response for a key, an eviction obligation outstanding against that key is issued downstream as an eviction for the same key within that same release, discharged exactly once. The obligation is never carried past the release as a settled materialization left filled with stale replay contents.", id = "aristos:deferred_eviction_released_at_refill", verify = "full", parent = "eviction_debt_conserved")]

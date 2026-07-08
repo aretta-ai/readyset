@@ -4222,11 +4222,11 @@ impl Domain {
     }
 
     #[aristo::intent(
-        "Evicting a key propagates to every downstream materialization transitively derived from \
-         it, including those reachable only through the source-triggered path; no reachable \
-         downstream materialization retains a filled entry for the evicted key.",
-        verify = "neural",
-        id = "eviction_cascade_reaches_all_downstream_materializations",
+        "The downstream eviction cascade for a key is initiated exactly when evicting that key from \
+         the local materialization freed a strictly positive memory measure, which holds precisely \
+         when the eviction removed a present key.",
+        verify = "full",
+        id = "aristos:cascade_gated_on_positive_freed_measure",
         parent = "eviction_preserves_holeness"
     )]
     #[aristo::intent("Evicting a key propagates to every downstream materialization transitively derived from it, including those reachable only through the source-triggered path. No reachable downstream materialization retains a filled entry for the evicted key.", id = "aristos:eviction_cascade_reaches_all_downstream_materializations", verify = "full", parent = "eviction_preserves_holeness")]
